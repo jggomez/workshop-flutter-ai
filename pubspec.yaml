@@ -1,0 +1,49 @@
+name: cancun_dashbooth
+description: "Cancun DashBooth — Photobooth oficial interactivo con IA para FlutterConf LATAM 2026."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- State Management & Inyección de Dependencias ---
+  flutter_riverpod: ^2.6.1
+
+  # --- Firebase Core & Services ---
+  firebase_core: ^3.10.0
+  cloud_firestore: ^5.6.0
+  firebase_storage: ^12.4.0
+
+  # --- Firebase AI Logic (Google Generative AI en cliente) ---
+  firebase_ai: ^2.3.0
+  http: ^1.2.2
+
+  # --- Captura Multimedia (Web Compatible) ---
+  image_picker: ^1.1.2
+
+  # --- Manipulación y Compresión de Imagen en Memoria (Web-Safe) ---
+  image: ^4.5.2
+
+  # --- UI, Tipografía & Animaciones ---
+  google_fonts: ^6.2.1
+  shimmer: ^3.0.0
+  cupertino_icons: ^1.0.8
+
+  # --- Utilidades Web & Exportación ---
+  universal_html: ^2.2.4
+  uuid: ^4.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/

@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /UserCards/{cardId} {
+      // Lectura pública para proyectar y explorar el collage en vivo en FlutterConf LATAM
+      allow read: if true;
+
+      // Creación pública sin autenticación (Zero-Auth) para evitar fricción en el workshop
+      // Se valida la integridad de los datos, tipos, límites y formato
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() >= 2
+                    && request.resource.data.name.size() <= 50
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() >= 5
+                    && request.resource.data.imageUri is string
+                    && request.resource.data.imageUri.matches('https?://.*')
+                    && request.resource.data.createdAt is timestamp;
+
+      // Prohibir modificaciones y eliminaciones desde los clientes
+      allow update, delete: if false;
+    }
+  }
+}

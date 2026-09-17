@@ -1,0 +1,35 @@
+{
+    "name": "Cancun DashBooth — FlutterConf LATAM 2026",
+    "short_name": "DashBooth",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#080E1E",
+    "theme_color": "#00E5FF",
+    "description": "Cancun DashBooth — Captura tu selfie con Dash IA y genera tu credencial oficial para FlutterConf LATAM Cancún 2026.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

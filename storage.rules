@@ -1,0 +1,14 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /user_cards/{cardId} {
+      // Lectura pública de las credenciales generadas para el collage en vivo y visualización web
+      allow read: if true;
+
+      // Creación/Subida pública de la imagen de credencial (Zero-Auth)
+      // Se valida que sea formato de imagen y peso máximo de 5MB
+      allow write: if request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
