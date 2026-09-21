@@ -43,6 +43,18 @@ python3 -m http.server 8080 -d build/web
 # Abrir en http://localhost:8080
 ```
 
+### 4. Screenshots
+
+<img width="1200" height="948" alt="Screenshot 2026-09-20 at 9 51 05 p m" src="https://github.com/user-attachments/assets/ba669c93-2571-46dd-8078-9a817da7a1e1" />
+
+---
+
+<img width="1264" height="777" alt="Screenshot 2026-09-20 at 9 52 21 p m" src="https://github.com/user-attachments/assets/8f1b3e05-c29a-4af6-800c-96482f54f3c1" />
+
+---
+
+<img width="1254" height="861" alt="Screenshot 2026-09-20 at 9 52 29 p m" src="https://github.com/user-attachments/assets/b77c818b-626d-486f-aff0-13bc9dec5feb" />
+
 ---
 
 ## 📚 Laboratorio Paso a Paso (`lab/`)
