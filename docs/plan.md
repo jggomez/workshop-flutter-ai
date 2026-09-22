@@ -33,7 +33,7 @@ flowchart LR
   - Crear un nuevo proyecto en Firebase llamado `DashBooth` (`dashbooth-cancun-2026`).
   - Habilitar el servicio de **Cloud Firestore** (base de datos nativa en `us-central1` creada).
   - Habilitar el servicio de **Firebase Storage** (bucket `dashbooth-cancun-2026-user-cards` aprovisionado).
-  - Habilitar el servicio de **Firebase AI Logic** (activando Gemini Developer API / `generativelanguage.googleapis.com`).
+  - Habilitar el servicio de **Firebase AI Logic** (Firebase Vertex AI / `firebasevertexai.googleapis.com`).
   - Registrar la aplicación Web de Flutter en Firebase (`DashBooth Web` - `1:1084274811775:web:8ceddb133a5eccc570704a`).
   - Generar el archivo de configuración oficial [`lib/firebase_options.dart`](file:///Users/jggomez/Documents/jggomez/code/workshop-flutter-ia/lib/firebase_options.dart).
   - Desplegar las reglas iniciales de seguridad de [`firestore.rules`](file:///Users/jggomez/Documents/jggomez/code/workshop-flutter-ia/firestore.rules) y [`storage.rules`](file:///Users/jggomez/Documents/jggomez/code/workshop-flutter-ia/storage.rules).
@@ -202,7 +202,7 @@ flowchart LR
 ### Fase 9: Resiliencia API (401 App Check) y Perfeccionamiento de UI/UX de IA Vibe
 - [x] **9.1. Diagnóstico y Fallback para Error 401 (Unauthorized) de Firebase Vertex AI**:
   - **Causa:** En Web (`http://localhost:8080`), las peticiones a `firebasevertexai.googleapis.com` requieren un token de Firebase App Check (`X-Firebase-AppCheck`). Sin App Check configurado en el navegador de desarrollo, la llamada retorna 401 Unauthorized.
-  - **Solución implementada:** Se integró un fallback directo a la REST API de Google AI Gemini Developer (`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=$apiKey`). Este endpoint utiliza la API Key directamente, no exige App Check, y responde exitosamente generando la imagen multivariada (Dash + Caribe) y el texto.
+  - **Solución implementada:** Se integró un fallback directo a la REST API de Firebase Vertex AI (`https://firebasevertexai.googleapis.com/v1beta/projects/$projectId/models/gemini-3.1-flash-image:generateContent?key=$apiKey`). Este endpoint interactúa directamente con el proyecto en Firebase Vertex AI, no depende de la inicialización de App Check en Web si está unenforced, y responde exitosamente generando la imagen multivariada (Dash + Caribe) y el texto.
 - [x] **9.2. Optimización de Frases y Títulos de IA Vibe (Frases Mexicanas y Regionales de Cancún/Yucatán)**:
   - Se ajustó el prompt del modelo para requerir explícitamente frases mexicanas auténticas y referencias regionales a Cancún, Quintana Roo y Yucatán (ej: "¡Qué Chido Cancún! 100%", "Bomba Yucateca de Código", "Vibra Maya Sagrada 99%", "Kukulcán del Hot Reload", "¡Qué Padre la Riviera Maya!", "Marquesita & Widgets 100%").
   - Se renovó el catálogo de fallback con títulos de identidad mexicana y peninsular para cuando se opera offline.

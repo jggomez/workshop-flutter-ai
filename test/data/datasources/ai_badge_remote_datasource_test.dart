@@ -53,7 +53,7 @@ void main() {
     });
 
     test(
-        'falls back to Google AI direct REST API when Firebase AI SDK throws 401 or exception',
+        'falls back to Firebase Vertex AI direct REST API when Firebase AI SDK throws 401 or exception',
         () async {
       final mockClient = MockHttpClient();
       final expectedImage = Uint8List.fromList([7, 8, 9, 10]);
@@ -84,6 +84,7 @@ void main() {
       final dataSource = AiBadgeRemoteDataSource(
         httpClient: mockClient,
         apiKey: 'test-api-key',
+        projectId: 'dashbooth-cancun-2026',
       );
 
       final result = await dataSource.generateBadge(
@@ -97,7 +98,7 @@ void main() {
 
       verify(() => mockClient.post(
             Uri.parse(
-                'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=test-api-key'),
+                'https://firebasevertexai.googleapis.com/v1beta/projects/dashbooth-cancun-2026/models/gemini-3.1-flash-image:generateContent?key=test-api-key'),
             headers: {'Content-Type': 'application/json'},
             body: any(named: 'body'),
           )).called(1);

@@ -84,8 +84,8 @@ Un ejemplo sobresaliente del poder del bucle autónomo durante la creación de C
 1. **El Problema:** Al probar la invocación oficial con `package:firebase_ai` en el navegador local (`http://localhost:8080`), la API de Firebase Vertex AI respondió con `401 Unauthorized` debido a que Firebase Vertex AI exige tokens de Firebase App Check en clientes web.
 2. **Diagnóstico del Agente:** En lugar de detenerse y pedir ayuda al usuario, el agente consultó la regla de resiliencia en `docs/tech-stack.md` (Regla 4: Resiliencia ante Fallos de Red).
 3. **Auto-Corrección Quirúrgica:**
-   * El agente diseñó de inmediato la arquitectura **Dual-Channel**: si la llamada al SDK de Firebase AI arroja un error (como el 401), el datasource ejecuta inmediatamente una petición HTTP POST a la REST API de Google AI Gemini Developer (`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=$apiKey`).
-   * Esta llamada comparte la misma clave pública de Firebase configurada en `firebase_options.dart`, no exige App Check en desarrollo y devuelve exactamente los mismos bytes de imagen y texto multimodal.
+   * El agente diseñó de inmediato la arquitectura **Dual-Channel**: si la llamada al SDK de Firebase AI arroja una excepción, el datasource ejecuta inmediatamente una petición HTTP POST a la REST API de Firebase Vertex AI (`https://firebasevertexai.googleapis.com/v1beta/projects/$projectId/models/gemini-3.1-flash-image:generateContent?key=$apiKey`).
+   * Esta llamada comparte la misma clave pública de Firebase configurada en `firebase_options.dart`, interactúa directamente con el endpoint de Firebase Vertex AI y devuelve exactamente los mismos bytes de imagen y texto multimodal.
 4. **Verificación:** El agente corrió los tests unitarios (`ai_badge_remote_datasource_test.dart`) y confirmó que el fallback operaba de forma transparente para el usuario final.
 
 ---

@@ -128,7 +128,7 @@ Usa `image_picker` llamando a `pickImage(source: ImageSource.camera)` y extrayen
 ### 4.2. DataSource de Firebase AI Logic con Resiliencia Dual-Channel
 En [`AiBadgeRemoteDataSource`](../lib/data/datasources/ai_badge_remote_datasource.dart):
 1. **Canal Principal (`package:firebase_ai`):** Se instancia el modelo `gemini-3.1-flash-image` configurando `responseModalities: [ResponseModalities.text, ResponseModalities.image]`.
-2. **Canal Secundario (REST API Fallback):** Si ocurre un error 401 de App Check o timeout de 20s, se dispara un POST directo a `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=$apiKey`.
+2. **Canal Secundario (REST API Fallback):** Si ocurre una excepción en el SDK o timeout de 20s, se dispara un POST directo a `https://firebasevertexai.googleapis.com/v1beta/projects/$projectId/models/gemini-3.1-flash-image:generateContent?key=$apiKey`.
 3. **Canal Terciario (Catálogo Offline):** Si no hay conexión, se preserva la foto original del usuario y se asigna un título caribeño determinista.
 
 ### 4.3. Almacenamiento Zero-Auth (Storage + Firestore)

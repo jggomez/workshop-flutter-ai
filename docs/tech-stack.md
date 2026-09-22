@@ -80,14 +80,14 @@ dev_dependencies:
 * **Arquitectura de Resiliencia Dual-Channel (A prueba de fallos en conferencia):**
   ```mermaid
   flowchart TD
-      A["Usuario captura foto"] --> B["Canal 1: FirebaseAI.googleAI()\nSDK Oficial de Firebase AI"]
+      A["Usuario captura foto"] --> B["Canal 1: FirebaseAI SDK\nfirebasevertexai.googleapis.com"]
       B -->|200 OK| D["Resultado Multimodal Oficial\n(Imagen Ilustrada + IA Vibe)"]
-      B -->|401 App Check / Timeout| C["Canal 2: Google AI Gemini Developer API REST\n(Misma API Key + gemini-3.1-flash-image)"]
+      B -->|SDK Exception / Timeout| C["Canal 2: Firebase Vertex AI REST API\n(https://firebasevertexai.googleapis.com/v1beta/projects/<id>/models/...)"]
       C -->|200 OK| D
       C -->|Offline / Red Inestable| E["Canal 3: Fallback Determinista\n(Foto original + Frase Mexicana/Yucateca Breve)"]
   ```
   1. **Canal 1 (Principal):** Invocación oficial con `package:firebase_ai` usando `FirebaseAI.googleAI().generativeModel(model: 'gemini-3.1-flash-image')`.
-  2. **Canal 2 (Respaldo Transparente):** Si Canal 1 arroja cualquier excepción (como el 401 de App Check o timeout de 20s), se ejecuta inmediatamente una petición HTTP POST a `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=$apiKey`. Este endpoint comparte la misma cuota del proyecto de Google Cloud, no exige App Check y devuelve idéntica salida de imagen y texto.
+  2. **Canal 2 (Respaldo Transparente):** Si Canal 1 arroja cualquier excepción (como timeout de 20s o error de inicialización del SDK), se ejecuta inmediatamente una petición HTTP POST a `https://firebasevertexai.googleapis.com/v1beta/projects/$projectId/models/gemini-3.1-flash-image:generateContent?key=$apiKey`. Este endpoint interactúa directamente con Firebase Vertex AI, comparte la misma cuota del proyecto de Google Cloud, y devuelve idéntica salida multimodal de imagen y texto.
   3. **Canal 3 (Catálogo Offline):** Si ambos canales fallan por pérdida total de conexión Wi-Fi, se preserva la foto original del asistente y se asigna una frase mexicana/yucateca corta calculada por hash determinista (ej: *"¡Qué Chido Cancún! 100%"*, *"Bomba Yucateca de Código"*, *"Vibra Maya Sagrada 99%"*).
 
 

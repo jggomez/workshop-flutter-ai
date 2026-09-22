@@ -12,14 +12,15 @@ typedef GeminiMultimodalGenerator
   required Uint8List photoBytes,
 });
 
-/// Remote data source that interacts with `gemini-3.1-flash-image` with multimodal input and output.
-/// If the Firebase Vertex AI endpoint fails (e.g. 401 Firebase App Check token invalid/missing on web),
-/// it automatically falls back to the Google AI Gemini Developer API directly via REST with the project's API key.
+/// Remote data source that interacts with `gemini-3.1-flash-image` with multimodal input and output
+/// through Firebase Vertex AI (`https://firebasevertexai.googleapis.com/v1beta/projects/<projectId>/models/...`).
+/// If the Firebase AI SDK client throws an exception, it falls back to the direct Firebase Vertex AI REST endpoint.
 class AiBadgeRemoteDataSource {
   final FirebaseAI? _firebaseAi;
   final GeminiMultimodalGenerator? _geminiMultimodalGenerator;
   final http.Client _httpClient;
   final String? _apiKey;
+  final String? _projectId;
 
   static const List<String> caribbeanFallbackTitles = [
     '¡Qué Chido Cancún! 100%',
@@ -41,10 +42,12 @@ class AiBadgeRemoteDataSource {
     GeminiMultimodalGenerator? geminiMultimodalGenerator,
     http.Client? httpClient,
     String? apiKey,
+    String? projectId,
   })  : _firebaseAi = firebaseAi,
         _geminiMultimodalGenerator = geminiMultimodalGenerator,
         _httpClient = httpClient ?? http.Client(),
-        _apiKey = apiKey;
+        _apiKey = apiKey,
+        _projectId = projectId;
 
   /// Returns a deterministic Caribbean title from the fallback catalog for [attendeeName].
   static String getFallbackTitle(String attendeeName) {
@@ -128,10 +131,10 @@ class AiBadgeRemoteDataSource {
           sdkSucceeded = false;
         }
 
-        // If Firebase AI SDK fails (e.g. 401 App Check error or missing platform app),
-        // fallback directly to Google AI Gemini Developer API (which uses apiKey without App Check)
+        // If Firebase AI SDK fails, fallback directly to Firebase Vertex AI REST API
+        // at https://firebasevertexai.googleapis.com/v1beta/projects/<projectId>/models/...
         if (!sdkSucceeded) {
-          final directResult = await _generateViaGoogleAiApi(
+          final directResult = await _generateViaFirebaseVertexAiApi(
             promptText: promptText,
             photoBytes: photoBytes,
           );
@@ -155,14 +158,16 @@ class AiBadgeRemoteDataSource {
     );
   }
 
-  Future<({String? vibeTitle, Uint8List? imageBytes})> _generateViaGoogleAiApi({
+  Future<({String? vibeTitle, Uint8List? imageBytes})>
+      _generateViaFirebaseVertexAiApi({
     required String promptText,
     required Uint8List photoBytes,
   }) async {
     try {
       final key = _apiKey ?? DefaultFirebaseOptions.web.apiKey;
+      final projectId = _projectId ?? DefaultFirebaseOptions.web.projectId;
       final uri = Uri.parse(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=$key',
+        'https://firebasevertexai.googleapis.com/v1beta/projects/$projectId/models/gemini-3.1-flash-image:generateContent?key=$key',
       );
 
       final payload = {
