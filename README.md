@@ -7,8 +7,6 @@
 [![Harness Lab](https://img.shields.io/badge/Hands--on%20Lab-AI%20Harness%20Engineering-orange)](lab/README.md)
 [![Live Production App](https://img.shields.io/badge/Live%20App-dashbooth--cancun--2026.web.app-success?logo=firebase)](https://dashbooth-cancun-2026.web.app)
 
-> 🌐 **App en Producción (Firebase Hosting):** [https://dashbooth-cancun-2026.web.app](https://dashbooth-cancun-2026.web.app)
-
 **Cancun DashBooth** es la aplicación web interactiva oficial de **FlutterConf LATAM 2026 en Cancún, México**.
 
 Diseñada para una experiencia de usuario fluida y festiva, permite a los asistentes registrarse sin autenticación (**Zero-Auth**), capturar una selfie desde el navegador, transformarla con **Firebase AI Logic (`gemini-3.1-flash-image`)** en un retrato ilustrado en la playa de Cancún junto a **Dash** (la mascota oficial de Flutter), componer su credencial oficial VIP con el hashtag `#flutterconflatam26`, publicarla en tiempo real en un mural colaborativo, participar en un sorteo estilo **Fórmula 1** con podio tridimensional y compartir su credencial en **Instagram**.
